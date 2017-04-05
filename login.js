@@ -3,10 +3,10 @@
 function validate()
 {
 	var username = document.getElementById("username").value;
-	var password = document.getElementById("password").value;
+	var passwd = document.getElementById("password").value;
 	
 	sessionStorage.username = username;
-	sessionStorage.password = password;
+	sessionStorage.passwd = passwd;
 	
 	var json = {
 	};
