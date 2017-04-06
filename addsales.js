@@ -3,22 +3,22 @@
 function insertData()
 {
 	
-	var date = new Date()
+	var date = new Date();
 	
 	var json = {
-		"authent": {
-			"username": sessionStorage.username,
-			"password": sessionStorage.passwd
-		},
+		//"authent": {
+		//	"username": sessionStorage.username,
+		//	"password": sessionStorage.passwd
+		//},
 		
 		"requests": [
 			{
 				"type": "add",
 				"records": [
 					{
-						"product": document.getElementById("product");,
-						"quantity": document.getElementById("quantity");
-						"dateTime": date.toISOString().replace(/[^0-9a-zA-Z]/g,'');	// current date+time ISO 8601 
+						"product": document.getElementById("product"),
+						"quantity": document.getElementById("quantity"),
+						"dateTime": date.toISOString().replace(/[^0-9a-zA-Z]/g,'')	// current date+time ISO 8601 
 					}
 				]
 			}
