@@ -17,12 +17,12 @@
 <body>
 <div class="topnav" id="topnav">
 	<a href="index.html">Home</a>
-	<a href="addsales.html">Sales</a>
+	<a href="addsales.html">Add Sales</a>
 	<a href="viewsales.html">View Sales</a>
 </div>
 
 <h1>Add Sale</h1>
-<form method="post" id="addsales">
+<form id="addsales">
 <fieldset><legend>Item Details</legend>
 	<p class="row">	<label for="product">Product: </label>
 			<input type="text" name="product" id="product" /></p>
@@ -30,7 +30,7 @@
 	<p class="row">	<label for="quantity">Quantity: </label>
 		<input type="text" name="quantity" id="quantity" /></p>
 		
-	<p>	<input type="submit" value="Add Item" onclick="insertData()"/></p>
+	<p>	<input type="submit" value="Add Item" id="submit" onclick="insertData()"/></p>
 </fieldset>
 </form>
 	
