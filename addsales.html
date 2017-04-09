@@ -4,14 +4,9 @@
 <meta charset="UTF-8">
 <meta name="description" content="Index page">
 <meta name="author" content="Jason Stanton">
+<script src="addsales.js"></script>
 
 <title>PHP Sales Reporting</title>
-
-<script src="addsales.js"></script>
-<!-- Description: index page -->
-<!-- Author: J. Stanton -->
-<!-- Date: 10/05/2016 -->
-<!-- Validated: OK <date checked> || <what still needs to be fixed> -->
 </head>
 
 <body>
@@ -22,15 +17,18 @@
 </div>
 
 <h1>Add Sale</h1>
-<form id="addsales">
+<form id="addsalesform">
 <fieldset><legend>Item Details</legend>
 	<p class="row">	<label for="product">Product: </label>
-			<input type="text" name="product" id="product" /></p>
+		<input type="text" name="product" id="product" placeholder="Enter product id" required/></p>
 			
 	<p class="row">	<label for="quantity">Quantity: </label>
-		<input type="text" name="quantity" id="quantity" /></p>
+		<input type="text" name="quantity" id="quantity" placeholder="Enter quantity sold" required/></p>
 		
-	<p>	<input type="submit" value="Add Item" id="submit" onclick="insertData()"/></p>
+	<p class="row"> <label for="datetime">Date & Time:</label>
+		<input type="text" name="datetime" id="datetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
+		
+	<p>	<input type="submit" value="Add Item" id="submit"/></p>
 </fieldset>
 </form>
 	
