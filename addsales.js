@@ -1,18 +1,66 @@
 "use strict";
 
-function getCurrentDate() {
-	var date = new Date();
-	date = date.toISOString().replace(/[^0-9a-zA-Z]/g,'');	// current date+time ISO 8601 
-	date = date.substring(0,15) + date.substring(18,19); // remove extra characters
-	return date;
+function getCurrentDateAndTime() {
+	var datetime = new Date();
+	datetime = datetime.toISOString().replace(/[^0-9a-zA-Z]/g,'');	// current date+time ISO 8601 
+	datetime = datetime.substring(0,15) + datetime.substring(18,19); // remove extra characters
+	return datetime;
 }
 
-function getDate() {
-	var date = document.getElementById("datetime");
-	if(document.getElementBy)
-		
-	//Regex for date (\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2})$
+function getDateAndTime() {
+	var datetime = document.getElementById("datetime").value;
+	
+	if(datetime != "")	
+	{
+		if(datetime.match(/\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}/g))
+			{
+				datetime = datetime.replace(/[^0-9]/g, '');
+				datetime = datetime.substring(4,8) + datetime.substring(2, 4) + datetime.substring(0, 2) + "T" 
+							+ datetime.substring(8,14) + "Z";
+				return datetime;
+			}
+		else
+			{
+				alert("Date/Time does not match specified format. Please input correct format for date/time.");
+			}
+	}
+	else
+		return getCurrentDateAndTime();
 }
+
+/*function validateInput() {
+	
+	var product = document.getElementById("product").value;
+	var quantity = document.getElementById("quantity").value;
+	var date = document.getElementById("datetime").value;
+	
+	var result = true;
+	var errMsg="";
+	
+	if(!product.match(/[\d]/))
+	{
+		errMsg += "Please enter a numeric id for the product.\n"
+		result = false;
+	}
+	
+	if(!quantity.match(/\d/))
+	{
+		errMsg += "Please enter a numerical value for the quantity.\n"
+		result = false;
+	}
+	
+	if(date && !date.match(/\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}/))
+	{
+		errMsg += "Date/Time does not match format DD-MM-YYYY HH:MM:SS\n"
+		result = false;
+	}
+		
+	if(!result)
+		alert(errMsg);
+	
+	return result;
+	
+}*/
 
 function insertData(event) {	
 	var json = {
@@ -28,7 +76,7 @@ function insertData(event) {
 					{
 						"product": Number(document.getElementById("product").value),
 						"quantity": Number(document.getElementById("quantity").value),
-						"dateTime": getCurrentDate()
+						"dateTime": getDateAndTime()
 					}
 				]
 			}
@@ -55,7 +103,8 @@ function insertData(event) {
 
 function init()
 {
-	document.getElementById("addsalesform").onsubmit = insertData;
+	//if(validateInput())
+		document.getElementById("addsalesform").onsubmit = insertData;
 }
 
 window.onload = init;
