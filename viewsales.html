@@ -22,6 +22,28 @@
 </div>
 <h1>View Sales</h1>
 
+<form id="filtersales">
+	<p class="row">	<label for="product">Product: </label>
+		<input type="text" name="product" id="product" placeholder="Enter product id"/>
+			
+	<label for="quantity">Quantity: </label>
+		<input type="text" name="quantity" id="quantity" placeholder="Enter quantity sold"/>
+		
+	<label for="datetime">Date & Time:</label>
+		<input type="text" name="datetime" id="datetime" placeholder="DD-MM-YYYY HH:MM:SS"/>
+		
+	<label for="noOfRecords">No. of Records to Display</label>
+		<select name="noOfRecords">
+		  <option value="20">20</option>
+		  <option value="50">50</option>
+		  <option value="100">100</option>
+		  <option value="200">200</option>
+		</select>
+		
+	<input type="submit" value="Get Sales" id="submit"/>
+	</p>
+</form>
+
 <table id="table">
 	<tr>
 		<th>ID</th>
