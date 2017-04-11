@@ -1,4 +1,15 @@
 function init() {
+	
+	var table = document.getElementById("table");
+	
+	//Get filter values
+	//var product = document.getElementById("product").value;
+	//var quantity = document.getElementById("quantity").value;
+	//var datefrom = document.getElementById("datefrom").value;
+	//var dateto = document.getElementById("dateto").value;
+	//var records = document.getElementById("records").value;
+	
+	
 	var json = {
 		"authent": {
 			"username": "feferi",
@@ -7,12 +18,28 @@ function init() {
 		
 		"requests": [
 			{
-				"type": "retrieve"
+				"type": "retrieve",
+				"filter": {
+					"type": "logicOr",
+					"children": [
+						{
+							"type": "column",
+							"name": "product",
+							"value": 2
+						},
+						{
+							"type": "column",
+							"name": "product",
+							"value": 4
+						}
+					]
+					
+				}
 			}
 		]
 	};
 	
-	var table = document.getElementById("table");
+	
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "../dp2-api/api/", true);	// All requests should be of type post
@@ -22,7 +49,7 @@ function init() {
 				console.log(JSON.parse(xhr.responseText)); // Barring error conditions, responses will be valid JSON
 				var data = JSON.parse(xhr.responseText); 
 				
-				for (i=0; i < data[0].length; i++)
+				for (i=0; i < data.length; i++)
 				{
 					var row 		= table.insertRow(i+1);
 					
