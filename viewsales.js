@@ -1,4 +1,4 @@
-function init() {
+function displaySalesRecords() {
 	
 	var table = document.getElementById("table");
 	
@@ -18,23 +18,7 @@ function init() {
 		
 		"requests": [
 			{
-				"type": "retrieve",
-				"filter": {
-					"type": "logicOr",
-					"children": [
-						{
-							"type": "column",
-							"name": "product",
-							"value": 2
-						},
-						{
-							"type": "column",
-							"name": "product",
-							"value": 4
-						}
-					]
-					
-				}
+				"type": "retrieve"
 			}
 		]
 	};
@@ -49,7 +33,7 @@ function init() {
 				console.log(JSON.parse(xhr.responseText)); // Barring error conditions, responses will be valid JSON
 				var data = JSON.parse(xhr.responseText); 
 				
-				for (i=0; i < data.length; i++)
+				for (i=0; i < data[0].length; i++)
 				{
 					var row 		= table.insertRow(i+1);
 					
@@ -76,4 +60,4 @@ function init() {
 	xhr.send("request=" + encodeURIComponent(JSON.stringify(json)));
 }
 
-window.onload = init;
+window.onload = displaySalesRecords;
