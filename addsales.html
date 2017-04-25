@@ -17,6 +17,18 @@
 	<a href="viewsales.html">View Sales</a>
 </div>
 
+<h1>Sales</h1>
+<table id="table">
+	<tr>
+		<th>ID</th>
+		<th>Product</th>
+		<th>Name</th>
+		<th>Quantity</th>
+		<th>Value</th>
+		<th>DateTime</th>
+	</tr>
+</table>
+
 <h1>Add Sale</h1>
 <form id="addsalesform">
 <fieldset><legend>Item Details</legend>
@@ -32,6 +44,26 @@
 	<p>	<input type="submit" value="Add Item" id="submit"/></p>
 </fieldset>
 </form>
+
+<h1>Edit Sale</h1>
+<form id="editsalesform">
+<fieldset><legend>Item Details</legend>
+	<p class="row"> <label for="saleid">Sale ID: </label>
+		<input type="text" name="saleid" id="saleid" placeholder="ID Of Sale" required/></p>
+		
+	<p class="row">	<label for="editproduct">Product: </label>
+		<input type="text" name="editproduct" id="editproduct" placeholder="Enter product id"/></p>
+			
+	<p class="row">	<label for="editquantity">Quantity: </label>
+		<input type="text" name="editquantity" id="editquantity" placeholder="Enter quantity sold"/></p>
+		
+	<p class="row"> <label for="editdatetime">Date & Time:</label>
+		<input type="text" name="editdatetime" id="editdatetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
+		
+	<p>	<input type="submit" value="Edit Item" id="editsubmit"/></p>
+</fieldset>
+</form>
+
 	
 
 </body>
