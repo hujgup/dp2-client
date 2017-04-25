@@ -28,7 +28,7 @@ function getDateAndTime() {
 		return getCurrentDateAndTime();
 }
 
-function sendAPIRequest(jsonData)
+function sendAPIRequest(jsonData,event,callback)
 {
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "../dp2-api/api/", true);	// All requests should be of type post
@@ -39,6 +39,7 @@ function sendAPIRequest(jsonData)
 			} else {
 				console.error(xhr.responseText);
 			}
+			callback(xhr);
 		}
 	};
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -69,8 +70,8 @@ function insertData(event) {
 		]
 	};
 	
-	sendAPIRequest(json);
-	displaySalesRecords();
+	// UPDATED CALL SIGNATURE
+	return sendAPIRequest(json,event,displaySalesRecords);
 }
 
 function editData(event) {
