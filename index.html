@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="description" content="Index page">
 <meta name="author" content="Jason Stanton">
-<script src="sales.js"></script>
-
-<title>PHP Sales Reporting</title>
+<script src="javascripts/sales.js"></script>
+<link rel="stylesheet" href="http://www.fixedheadertable.com/css/defaultTheme.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="styles/sales.css">
 </head>
 
 <body>
@@ -15,15 +15,20 @@
 </div>
 
 <h1>Sales</h1>
-<table id="table" cellpadding="5" cellspacing="5">
-	<tr>
-		<th>ID</th>
-		<th>Product</th>
-		<th>Name</th>
-		<th>Quantity</th>
-		<th>Amount</th>
-		<th>DateTime</th>
-	</tr>
+<table class="fixed_headers" id="table" cellpadding="5" cellspacing="5">
+	<caption>Sales Records</caption>
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Product</th>
+			<th>Name</th>
+			<th>Quantity</th>
+			<th>Amount</th>
+			<th>DateTime</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
 </table>
 
 <h1>Add Sale</h1>

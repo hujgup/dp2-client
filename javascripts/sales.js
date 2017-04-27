@@ -215,7 +215,8 @@ function displaySalesRecords() {
 					var i;
 					for (i=table.rows.length-1; i < data[0].length; i++)
 					{
-						var row 		= table.insertRow(i+1);
+						var bodyRef = table.getElementsByTagName('tbody')[0];
+						var row 		= bodyRef.insertRow(i);
 						
 						var id 			= row.insertCell(0);
 						var product 	= row.insertCell(1);
