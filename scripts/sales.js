@@ -38,7 +38,7 @@ function getDateAndTime() {
 	else
 		return getCurrentDateAndTime();
 	
-	if(datetime.match(/\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}/g))
+	if(datetime.match(/^\d{2}-\d{2}-\d{4} \d{2}:\d{2}:\d{2}$/g))
 	{
 		datetime = datetime.replace(/[^0-9]/g, '');
 		datetime = datetime.substring(4,8) + datetime.substring(2, 4) + datetime.substring(0, 2) + "T" 
@@ -118,32 +118,45 @@ function editData(event) {
 	var saleid = document.getElementById("saleid").value;
 	var product = document.getElementById("editproduct").value;
 	var quantity = document.getElementById("editquantity").value;
-	
-	if(saleid && saleid.match(/\d/))
+	var datetime = document.getElementById("editdatetime").value;
+	var json =
 	{
-		var json = {
-			"authent": {
-				"username": "feferi",
-				"password": "0413"
-			},
-			
-			"requests": [
-				{
-					"type": "edit",
-					"updateTo": {
-						"product": Number(product),
-						"quantity": Number(quantity),
-						"dateTime": getDateAndTime()
-					},
-					"filter": {
-						"type": "column",
-						"name": "id",
-						"value": saleid
-					}
-				}
-			]
-		};
+	"authent": {
+			"username": "feferi",
+			"password": "0413"
+		},
 		
+		"requests": [
+			{
+				"type": "edit",
+				"updateTo": {
+				},
+				"filter": {
+					"type": "column",
+					"name": "id",
+					"value": saleid
+				}
+			}
+		]
+	};
+	
+	if(saleid && saleid.match(/^\d*$/))
+	{
+		if(product != "")
+		{
+			json.requests[0].updateTo.product = Number(product);
+		}
+		
+		if(quantity != "")
+		{
+			json.requests[0].updateTo.quantity = Number(quantity);
+		}
+		
+		if(datetime != "")
+		{
+			json.requests[0].updateTo.dateTime = getDateAndTime();
+		}
+						
 		return sendAPIRequest(json, event, displaySalesRecords);
 	}
 	else

@@ -4,8 +4,21 @@
 <meta charset="UTF-8">
 <meta name="description" content="Index page">
 <meta name="author" content="Jason Stanton">
-<script src="javascripts/sales.js"></script>
+<script src="scripts/sales.js"></script>
 <link rel="stylesheet" type="text/css" href="styles/sales.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script> <!--Needed for all jquery-->
+
+<!--Calendar Scripts/Styles
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
+
+<!--Convert HTML Table to CSV-->
+<script src="scripts/jquery.tabletoCSV.js"></script>
+
+<!--DateTimePicker
+ <link rel="stylesheet" type="text/css" href="styles/DateTimePicker.css" />
+ <script type="text/javascript" src="scripts/DateTimePicker.js"></script>-->
+
 </head>
 
 <body>
@@ -30,6 +43,14 @@
 	</tbody>
 </table>
 
+<p><button id="export" data-export="export">Export (.csv)</button></p>
+<script>
+$("#export").click(function(){
+  $("table").tableToCSV();
+});
+
+</script>
+
 <h1>Add Sale</h1>
 <form id="addsalesform">
 <fieldset><legend>Item Details</legend>
@@ -40,8 +61,20 @@
 		<input type="text" name="quantity" id="quantity" placeholder="Enter quantity sold" required/></p>
 		
 	<p class="row"> <label for="datetime">Date & Time:</label>
-		<input type="text" name="datetime" id="datetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
-		
+		<input type="text" name="datetime" id="datetime" data-field="datetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
+	<!--<div id="dtBox"></div>
+	<script>
+	  $( function() {
+		$( "#datetime" ).datepicker();
+	  } );
+	</script>
+	<script>
+		 $(document).ready(function()
+		 {
+			 $("#dtBox").DateTimePicker();
+		 });
+	</script>-->
+	
 	<p>	<input type="submit" value="Add Item" id="submit"/></p>
 </fieldset>
 </form>
@@ -60,7 +93,13 @@
 		
 	<p class="row"> <label for="editdatetime">Date & Time:</label>
 		<input type="text" name="editdatetime" id="editdatetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
-		
+	
+	<!--<script>
+	  $( function() {
+		$( "#editdatetime" ).datepicker();
+	  } );
+	</script>-->
+	
 	<p>	<input type="submit" value="Edit Item" id="editsubmit"/></p>
 </fieldset>
 </form>
