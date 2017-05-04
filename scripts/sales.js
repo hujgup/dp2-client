@@ -166,6 +166,51 @@ function editData(event) {
 	
 }
 
+
+/*
+ * Constructs a JSON object for filtering sales data in the database 
+ */
+function filterSalesRecords(event) {
+	//get filter elements of form
+	/*
+	var idFilter = document.getElementById("filtersaleid");
+	var productFilter = document.getElementById("filterproduct");
+	var quantityFilter = document.getElementById("filterquantity");
+	var datetimeFilter = document.getElementById("filterdatetime");
+	
+	var filter;
+	if (idFilter.value != "")
+	{
+		filter =  {
+			"type": "column",
+			"name": "id",
+			"value": document.getElementById("filtersaleid").value
+		}
+	}
+	*/
+	
+	//console.log(filter);
+	
+	//construct empty retrieve JSON object
+	var json =
+	{
+	"authent": {
+			"username": "feferi",
+			"password": "0413"
+		},
+		
+		"requests": [
+			{
+				"type": "retrieve"
+			}
+		]
+	};
+	
+	//console.log(json);
+	
+	return sendAPIRequest(json, event, displaySalesRecords);
+}
+
 /*
  * Calculate and accurately round a value to a given precision. Returns result as a string.
  * Used in displayAmount() to correctly round the amount for given item and quantity.
@@ -197,50 +242,45 @@ function displayAmount(value, quantity)
  */
 function displaySalesRecords() {
 	
-	/*
-	Filters section
-	*/
-	
-	//get filter elements of form
-	var idFilter = document.getElementById("filtersaleid");
-	var productFilter = document.getElementById("filterproduct");
-	var quantityFilter = document.getElementById("filterquantity");
-	var datetimeFilter = document.getElementById("filterdatetime");
-
-	var filter;
-	if (idFilter.value != "")
-	{
-		filter =  {
-			"type": "column",
-			"name": "id",
-			"value": document.getElementById("filtersaleid").value
-		}
-	}
-	
-	console.log(filter);
-	
-	
 	var table = document.getElementById("table");
 	
-	var json = {
-		"authent": {
-			"username": "feferi",
-			"password": "0413"
-		},
-		
-		"requests": [
-			{
-				"type": "retrieve",
-				"filter": {
-					"type": "column",
-					"name": "id",
-					"value": idFilter.value
+	var json;
+	
+	if (document.getElementById("filtersaleid").value !== "")
+	{
+		json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve",
+					"filter": {
+						"type": "column",
+						"name": "id",
+						"value": document.getElementById("filtersaleid").value
+					}
 				}
-			}
-		]
-	};
+			]
+		};
+	} else {
+		json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve"
+				}
+			]
+		};
+	}
 	
-	
+	console.log(json);
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "../dp2-api/api/", true);	// All requests should be of type post
@@ -317,7 +357,7 @@ function init()
 	//if(validateInput())
 		document.getElementById("addsalesform").onsubmit = insertData;
 		document.getElementById("editsalesform").onsubmit = editData;
-		document.getElementById("salesfiltersform").onsubmit = displaySalesRecords;
+		document.getElementById("salesfiltersform").onsubmit = filterSalesRecords;
 		displaySalesRecords();
 }
 
