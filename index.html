@@ -27,6 +27,23 @@
 </div>
 
 <h1>Sales</h1>
+
+<form id="salesfiltersform">
+	<label for="filtersaleid">Sale ID: </label>
+		<input type="text" name="filtersaleid" id="filtersaleid" placeholder="ID Of Sale" required/>
+		
+	<label for="filterproduct">Product: </label>
+		<input type="text" name="filterproduct" id="filterproduct" placeholder="Enter product id"/>
+			
+	<label for="filterquantity">Quantity: </label>
+		<input type="text" name="filterquantity" id="filterquantity" placeholder="Enter quantity sold"/>
+		
+	<label for="filterdatetime">Date & Time:</label>
+		<input type="text" name="filterdatetime" id="filterdatetime" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/>
+		
+	<input type="submit" value="Filter Records" id="filtersubmit"/>
+</form>
+
 <table class="fixed_headers" id="table" cellpadding="5" cellspacing="5">
 	<caption>Sales Records</caption>
 	<thead>

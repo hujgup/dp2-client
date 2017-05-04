@@ -197,6 +197,29 @@ function displayAmount(value, quantity)
  */
 function displaySalesRecords() {
 	
+	/*
+	Filters section
+	*/
+	
+	//get filter elements of form
+	var idFilter = document.getElementById("filtersaleid");
+	var productFilter = document.getElementById("filterproduct");
+	var quantityFilter = document.getElementById("filterquantity");
+	var datetimeFilter = document.getElementById("filterdatetime");
+
+	var filter;
+	if (idFilter.value != "")
+	{
+		filter =  {
+			"type": "column",
+			"name": "id",
+			"value": document.getElementById("filtersaleid").value
+		}
+	}
+	
+	console.log(filter);
+	
+	
 	var table = document.getElementById("table");
 	
 	var json = {
@@ -207,7 +230,12 @@ function displaySalesRecords() {
 		
 		"requests": [
 			{
-				"type": "retrieve"
+				"type": "retrieve",
+				"filter": {
+					"type": "column",
+					"name": "id",
+					"value": idFilter.value
+				}
 			}
 		]
 	};
@@ -289,6 +317,7 @@ function init()
 	//if(validateInput())
 		document.getElementById("addsalesform").onsubmit = insertData;
 		document.getElementById("editsalesform").onsubmit = editData;
+		document.getElementById("salesfiltersform").onsubmit = displaySalesRecords;
 		displaySalesRecords();
 }
 
