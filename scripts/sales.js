@@ -245,6 +245,7 @@ function displaySalesRecords() {
 	var table = document.getElementById("table");
 	//var bodyRef = document.getElementById('tablebody');
 	
+	/*
 	var json = {
 			"authent": {
 				"username": "feferi",
@@ -257,11 +258,11 @@ function displaySalesRecords() {
 				}
 			]
 		};
+	*/
 	
-	/*
-	if (document.getElementById("filtersaleid").value !== "")
+	if (document.getElementById("filterproduct").value !== "")
 	{
-		json = {
+		var json = {
 			"authent": {
 				"username": "feferi",
 				"password": "0413"
@@ -272,14 +273,14 @@ function displaySalesRecords() {
 					"type": "retrieve",
 					"filter": {
 						"type": "column",
-						"name": "id",
-						"value": document.getElementById("filtersaleid").value
+						"name": "product",
+						"value": document.getElementById("filterproduct").value
 					}
 				}
 			]
 		};
 	} else {
-		json = {
+		var json = {
 			"authent": {
 				"username": "feferi",
 				"password": "0413"
@@ -292,7 +293,6 @@ function displaySalesRecords() {
 			]
 		};
 	}
-	*/
 	
 	console.log(json);
 	
@@ -303,6 +303,31 @@ function displaySalesRecords() {
 			if(xhr.status == 200) {
 				console.log(JSON.parse(xhr.responseText)); // Barring error conditions, responses will be valid JSON
 				var data = JSON.parse(xhr.responseText); 
+				
+				var i;
+				var html = "<caption>Sales Records</caption><thead><tr><th>ID</th><th>Product</th><th>Name</th><th>Quantity</th><th>Amount</th><th>DateTime</th></tr></thead><tbody>";
+				
+				for(i=0; i < data[0].length; i++)
+				{
+					html += "<tr><td>" + data[0][i].id + "</td><td>" + data[0][i].product + "</td><td>" + data[0][i].name + "</td><td>" + data[0][i].quantity + "</td><td>" + displayAmount(data[0][i].value, data[0][i].quantity) + "</td><td>" + formatDateAndTime(data[0][i].dateTime) + "</td></tr>";
+				}
+				
+				html += "</tbody>";
+				
+				console.log(html);
+				
+				table.innerHTML = html;
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				/*
 				
 				//check if table has any rows existing 
 				//if so delete all rows
@@ -406,6 +431,7 @@ function displaySalesRecords() {
 					
 				}
 				*/
+				
 			} else {
 				console.error(xhr.responseText);
 			}
