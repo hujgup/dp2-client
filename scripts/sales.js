@@ -235,18 +235,30 @@ function displayAmount(value, quantity)
 }
 
 /*
- * Displays the sales records in a predefined html table by inserting data
- * into the existing elements of the table. Checks for new entres into table
- * by doing a retrieve request to populate table, and also compares existing data
- * in table against latest retrieve.
+ * Displays the sales records in a predefined html table by writing
+ * new HTML each time and changing the innerHTML of the table element.
+ * Also handles filtering functionality.
  */
 function displaySalesRecords() {
 	
 	var table = document.getElementById("table");
-	//var bodyRef = document.getElementById('tablebody');
+	
+	//Get the filter elements 
+	var idFil = document.getElementById("filtersaleid");
+	var prodFil = document.getElementById("filterproduct");
+	var quantityFil = document.getElementById("filterquantity");
+	var datetimeFil = document.getElementById("filterdatetime");
 	
 	/*
-	var json = {
+	 * The next section handles the filtering. Currently if an ID filter value
+	 * exists then it will take precendence as only one sale ID can exist.
+	 * It then checks differing combinations of Product and Quantity. 
+	 * DateTime ranges are not implemented yet.
+	 */
+	 
+	//ID
+	if (idFil.value !== ""){
+		var json = {
 			"authent": {
 				"username": "feferi",
 				"password": "0413"
@@ -254,14 +266,47 @@ function displaySalesRecords() {
 			
 			"requests": [
 				{
-					"type": "retrieve"
+					"type": "retrieve",
+					"filter": {
+						"type": "column",
+						"name": "id",
+						"value": idFil.value
+					}
 				}
 			]
 		};
-	*/
-	
-	if (document.getElementById("filterproduct").value !== "")
-	{
+	//Product && Quantity
+	} else if ((prodFil.value !== "") && (quantityFil.value !== "")){
+		var json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve",
+					"filter": {
+						"type": "logicAnd",
+						"children": [
+							{
+								"type": "column",
+								"name": "product",
+								"value": prodFil.value
+							},
+							{
+								"type": "column",
+								"name": "quantity",
+								"value": quantityFil.value
+							}
+						]
+						
+					}
+				}
+			]
+		};
+	//Product
+	} else if (prodFil.value !== ""){
 		var json = {
 			"authent": {
 				"username": "feferi",
@@ -274,11 +319,31 @@ function displaySalesRecords() {
 					"filter": {
 						"type": "column",
 						"name": "product",
-						"value": document.getElementById("filterproduct").value
+						"value": prodFil.value
 					}
 				}
 			]
 		};
+	//Quantity
+	} else if (quantityFil.value !== ""){
+		var json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve",
+					"filter": {
+						"type": "column",
+						"name": "quantity",
+						"value": quantityFil.value
+					}
+				}
+			]
+		};
+	//Empty
 	} else {
 		var json = {
 			"authent": {
@@ -294,7 +359,8 @@ function displaySalesRecords() {
 		};
 	}
 	
-	console.log(json);
+	//Uncomment to debug json variable
+	//console.log(json);
 	
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", "../dp2-api/api/", true);	// All requests should be of type post
@@ -305,6 +371,9 @@ function displaySalesRecords() {
 				var data = JSON.parse(xhr.responseText); 
 				
 				var i;
+				
+				//Construct HTML table header row
+				//This needs to be exist singularly every time a new table is generated
 				var html = "<caption>Sales Records</caption><thead><tr><th>ID</th><th>Product</th><th>Name</th><th>Quantity</th><th>Amount</th><th>DateTime</th></tr></thead><tbody>";
 				
 				for(i=0; i < data[0].length; i++)
@@ -314,123 +383,11 @@ function displaySalesRecords() {
 				
 				html += "</tbody>";
 				
-				console.log(html);
+				//Uncomment to debug html variable e.g. see the table HTML that has been generated
+				//console.log(html);
 				
+				//This writes the newly generated table to the table element 
 				table.innerHTML = html;
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				
-				/*
-				
-				//check if table has any rows existing 
-				//if so delete all rows
-				
-				console.log("Table total length BEFORE deletion: " + table.rows.length);
-				//console.log("Table body length BEFORE deletion: " + bodyRef.rows.length);
-				
-				if(table.rows.length > 1)
-				{
-					var tableLength = table.rows.length;
-					var i;
-					for(i=1; i < tableLength; i++)
-					{
-						//console.log("i = " + i);
-						table.deleteRow(i);
-					}
-				}
-				
-				//Table length after deleting rows, should be 1 ?
-				console.log("Table total length AFTER deletion: " + table.rows.length);
-				//console.log("Table body length AFTER deletion: " + bodyRef.rows.length);
-				
-				//uncomment to log number of entries returned from request
-				//console.log(data[0].length);
-				
-				var j;
-				for (j=1; j < data[0].length; j++)
-				{
-					console.log("j = " + j);
-					var row 		= table.insertRow(j);
-					
-					
-					var id 			= row.insertCell(0);
-					var product 	= row.insertCell(1);
-					var name 		= row.insertCell(2);
-					var quantity 	= row.insertCell(3);
-					var amount 		= row.insertCell(4);
-					var dateTime 	= row.insertCell(5);
-					var rowNum		= row.insertCell(6);
-					
-					id.innerHTML 		= data[0][j-1].id;
-					product.innerHTML 	= data[0][j-1].product;
-					name.innerHTML 		= data[0][j-1].name;
-					quantity.innerHTML 	= data[0][j-1].quantity;
-					amount.innerHTML 	= displayAmount(data[0][j].value, data[0][j-1].quantity);
-					dateTime.innerHTML 	= formatDateAndTime(data[0][j-1].dateTime);
-					rowNum.innerHTML 	= j; 
-				}
-				
-				//Table length after inserting rows, should be however many entries are contained within the sales table + 1
-				console.log("Table total length AFTER insertion: " + table.rows.length);
-				//console.log("Table body length AFTER insertion: " + bodyRef.rows.length);
-				
-				/*
-				// Check for new entries
-				if(table.rows.length-1 < data[0].length)
-				{
-					var i;
-					for (i=table.rows.length-1; i < data[0].length; i++)
-					{
-						var bodyRef = table.getElementsByTagName('tbody')[0];
-						var row 		= bodyRef.insertRow(i);
-						
-						var id 			= row.insertCell(0);
-						var product 	= row.insertCell(1);
-						var name 		= row.insertCell(2);
-						var quantity 	= row.insertCell(3);
-						var amount 		= row.insertCell(4);
-						var dateTime 	= row.insertCell(5);
-						
-						id.innerHTML 		= data[0][i].id;
-						product.innerHTML 	= data[0][i].product;
-						name.innerHTML 		= data[0][i].name;
-						quantity.innerHTML 	= data[0][i].quantity;
-						amount.innerHTML 	= displayAmount(data[0][i].value, data[0][i].quantity);
-						dateTime.innerHTML 	= formatDateAndTime(data[0][i].dateTime);
-					}
-				}
-				
-				// Check against existing entries to update
-				for(i=1; i < table.rows.length; i++)
-				{
-					if(table.rows[i].cells[0].innerHTML != data[0][i-1].id)
-						table.rows[i].cells[0].innerHTML = data[0][i-1].id;
-					
-					if(table.rows[i].cells[1].innerHTML != data[0][i-1].product)
-						table.rows[i].cells[1].innerHTML = data[0][i-1].product;
-					
-					if(table.rows[i].cells[2].innerHTML != data[0][i-1].name)
-						table.rows[i].cells[2].innerHTML = data[0][i-1].name;
-					
-					if(table.rows[i].cells[3].innerHTML != data[0][i-1].quantity)
-						table.rows[i].cells[3].innerHTML = data[0][i-1].quantity;
-					
-					if(table.rows[i].cells[4].innerHTML != displayAmount(data[0][i-1].value, data[0][i-1].quantity))
-						table.rows[i].cells[4].innerHTML = displayAmount(data[0][i-1].value, data[0][i-1].quantity);
-					
-					if(table.rows[i].cells[5].innerHTML != formatDateAndTime(data[0][i-1].dateTime))
-						table.rows[i].cells[5].innerHTML = formatDateAndTime(data[0][i-1].dateTime);
-					
-					
-				}
-				*/
 				
 			} else {
 				console.error(xhr.responseText);
