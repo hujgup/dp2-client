@@ -243,9 +243,22 @@ function displayAmount(value, quantity)
 function displaySalesRecords() {
 	
 	var table = document.getElementById("table");
+	//var bodyRef = document.getElementById('tablebody');
 	
-	var json;
+	var json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve"
+				}
+			]
+		};
 	
+	/*
 	if (document.getElementById("filtersaleid").value !== "")
 	{
 		json = {
@@ -279,6 +292,7 @@ function displaySalesRecords() {
 			]
 		};
 	}
+	*/
 	
 	console.log(json);
 	
@@ -290,6 +304,59 @@ function displaySalesRecords() {
 				console.log(JSON.parse(xhr.responseText)); // Barring error conditions, responses will be valid JSON
 				var data = JSON.parse(xhr.responseText); 
 				
+				//check if table has any rows existing 
+				//if so delete all rows
+				
+				console.log("Table total length BEFORE deletion: " + table.rows.length);
+				//console.log("Table body length BEFORE deletion: " + bodyRef.rows.length);
+				
+				if(table.rows.length > 1)
+				{
+					var tableLength = table.rows.length;
+					var i;
+					for(i=1; i < tableLength; i++)
+					{
+						//console.log("i = " + i);
+						table.deleteRow(i);
+					}
+				}
+				
+				//Table length after deleting rows, should be 1 ?
+				console.log("Table total length AFTER deletion: " + table.rows.length);
+				//console.log("Table body length AFTER deletion: " + bodyRef.rows.length);
+				
+				//uncomment to log number of entries returned from request
+				//console.log(data[0].length);
+				
+				var j;
+				for (j=1; j < data[0].length; j++)
+				{
+					console.log("j = " + j);
+					var row 		= table.insertRow(j);
+					
+					
+					var id 			= row.insertCell(0);
+					var product 	= row.insertCell(1);
+					var name 		= row.insertCell(2);
+					var quantity 	= row.insertCell(3);
+					var amount 		= row.insertCell(4);
+					var dateTime 	= row.insertCell(5);
+					var rowNum		= row.insertCell(6);
+					
+					id.innerHTML 		= data[0][j-1].id;
+					product.innerHTML 	= data[0][j-1].product;
+					name.innerHTML 		= data[0][j-1].name;
+					quantity.innerHTML 	= data[0][j-1].quantity;
+					amount.innerHTML 	= displayAmount(data[0][j].value, data[0][j-1].quantity);
+					dateTime.innerHTML 	= formatDateAndTime(data[0][j-1].dateTime);
+					rowNum.innerHTML 	= j; 
+				}
+				
+				//Table length after inserting rows, should be however many entries are contained within the sales table + 1
+				console.log("Table total length AFTER insertion: " + table.rows.length);
+				//console.log("Table body length AFTER insertion: " + bodyRef.rows.length);
+				
+				/*
 				// Check for new entries
 				if(table.rows.length-1 < data[0].length)
 				{
@@ -338,7 +405,7 @@ function displaySalesRecords() {
 					
 					
 				}
-					
+				*/
 			} else {
 				console.error(xhr.responseText);
 			}
