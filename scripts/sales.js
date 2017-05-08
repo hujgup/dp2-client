@@ -249,6 +249,21 @@ function displaySalesRecords() {
 	var quantityFil = document.getElementById("filterquantity");
 	var datetimeFil = document.getElementById("filterdatetime");
 	
+	var json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve",
+					"filter": {
+					}
+				}
+			]
+		};
+	
 	/*
 	 * The next section handles the filtering. Currently if an ID filter value
 	 * exists then it will take precendence as only one sale ID can exist.
@@ -258,91 +273,28 @@ function displaySalesRecords() {
 	 
 	//ID
 	if (idFil.value !== ""){
-		var json = {
-			"authent": {
-				"username": "feferi",
-				"password": "0413"
-			},
-			
-			"requests": [
-				{
-					"type": "retrieve",
-					"filter": {
-						"type": "column",
-						"name": "id",
-						"value": idFil.value
-					}
-				}
-			]
-		};
+		
+		json.requests[0].filter.type = "column";
+		json.requests[0].filter.name = "id";
+		json.requests[0].filter.value = idFil.value;
 	//Product && Quantity
 	} else if ((prodFil.value !== "") && (quantityFil.value !== "")){
-		var json = {
-			"authent": {
-				"username": "feferi",
-				"password": "0413"
-			},
-			
-			"requests": [
-				{
-					"type": "retrieve",
-					"filter": {
-						"type": "logicAnd",
-						"children": [
-							{
-								"type": "column",
-								"name": "product",
-								"value": prodFil.value
-							},
-							{
-								"type": "column",
-								"name": "quantity",
-								"value": quantityFil.value
-							}
-						]
-						
-					}
-				}
-			]
-		};
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		
 	//Product
 	} else if (prodFil.value !== ""){
-		var json = {
-			"authent": {
-				"username": "feferi",
-				"password": "0413"
-			},
-			
-			"requests": [
-				{
-					"type": "retrieve",
-					"filter": {
-						"type": "column",
-						"name": "product",
-						"value": prodFil.value
-					}
-				}
-			]
-		};
+		json.requests[0].filter.type = "column";
+		json.requests[0].filter.name = "product";
+		json.requests[0].filter.value = prodFil.value;
+
 	//Quantity
 	} else if (quantityFil.value !== ""){
-		var json = {
-			"authent": {
-				"username": "feferi",
-				"password": "0413"
-			},
-			
-			"requests": [
-				{
-					"type": "retrieve",
-					"filter": {
-						"type": "column",
-						"name": "quantity",
-						"value": quantityFil.value
-					}
-				}
-			]
-		};
+		json.requests[0].filter.type = "column";
+		json.requests[0].filter.name = "quantity";
+		json.requests[0].filter.value = quantityFil.value;
 	//Empty
 	} else {
 		var json = {
