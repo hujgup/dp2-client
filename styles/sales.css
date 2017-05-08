@@ -1,6 +1,23 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+}
+
+#heading, #filters {
+	text-align: center;
+}
+
+#import {
+	text-align: right;
+}
+
+#addsale, #editsale {
+	text-align: center;
+}
+
 .fixed_headers {
   table-layout: fixed;
   border-collapse: collapse;
+  margin: 0 auto;
 }
 .fixed_headers th {
   text-decoration: underline;

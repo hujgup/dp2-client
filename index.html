@@ -19,15 +19,23 @@
  <link rel="stylesheet" type="text/css" href="styles/DateTimePicker.css" />
  <script type="text/javascript" src="scripts/DateTimePicker.js"></script>-->
 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+ 
 </head>
 
 <body>
+<!--
 <div class="topnav" id="topnav">
 	<a href="index.html">Home</a>
 </div>
+-->
 
-<h1>Sales</h1>
+<div id="heading">
+<h1>PHP Sales Reporting and Prediction System</h1>
+</div>
 
+<div>
+<div id="filters">
 <form id="salesfiltersform">
 	<label for="filtersaleid">Sale ID: </label>
 		<input type="text" name="filtersaleid" id="filtersaleid" placeholder="ID Of Sale"/>
@@ -46,18 +54,21 @@
 		
 	<input type="submit" value="Filter Records" id="filtersubmit"/>
 </form>
+</br>
+</div>
+<table class="fixed_headers" id="table" cellpadding="5" cellspacing="5"></table>
+</div>
 
-<table class="fixed_headers" id="table" cellpadding="5" cellspacing="5">
-</table>
-
+<div id="import">
 <p><button id="export" data-export="export">Export (.csv)</button></p>
 <script>
 $("#export").click(function(){
   $("table").tableToCSV();
 });
-
 </script>
+</div>
 
+<div id="addsale">
 <h1>Add Sale</h1>
 <form id="addsalesform">
 <fieldset><legend>Item Details</legend>
@@ -85,7 +96,9 @@ $("#export").click(function(){
 	<p>	<input type="submit" value="Add Item" id="submit"/></p>
 </fieldset>
 </form>
+</div>
 
+<div id="editsale">
 <h1>Edit Sale</h1>
 <form id="editsalesform">
 <fieldset><legend>Item Details</legend>
@@ -110,8 +123,6 @@ $("#export").click(function(){
 	<p>	<input type="submit" value="Edit Item" id="editsubmit"/></p>
 </fieldset>
 </form>
-
-	
-
+</div>
 </body>
 </html>
