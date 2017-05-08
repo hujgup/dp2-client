@@ -1,6 +1,19 @@
 "use strict";
 
 /*
+ * Takes a dateTime variable in form DD-MM-YY HH:MM:SS and converts
+ * into ISO8601 compressed format for insertion into database.
+ */
+function transformDateAndTime(datetime) {
+	//console.log("Date Initial: " + datetime);
+	datetime = datetime.replace(/[^0-9]/g, '');
+	//console.log("Date First: " + datetime);
+	datetime = datetime.substring(10,14) + datetime.substring(8, 10) + datetime.substring(6, 8) + "T" 
+				+ datetime.substring(0,6) + "Z";
+	return datetime;
+}
+
+/*
  * Gets the current system date and time and returns a string in the
  * ISO8601 compressed format for insertion into database.
  */
@@ -171,25 +184,6 @@ function editData(event) {
  * Constructs a JSON object for filtering sales data in the database 
  */
 function filterSalesRecords(event) {
-	//get filter elements of form
-	/*
-	var idFilter = document.getElementById("filtersaleid");
-	var productFilter = document.getElementById("filterproduct");
-	var quantityFilter = document.getElementById("filterquantity");
-	var datetimeFilter = document.getElementById("filterdatetime");
-	
-	var filter;
-	if (idFilter.value != "")
-	{
-		filter =  {
-			"type": "column",
-			"name": "id",
-			"value": document.getElementById("filtersaleid").value
-		}
-	}
-	*/
-	
-	//console.log(filter);
 	
 	//construct empty retrieve JSON object
 	var json =
@@ -234,20 +228,14 @@ function displayAmount(value, quantity)
 	return "$" + result;
 }
 
-/*
- * Displays the sales records in a predefined html table by writing
- * new HTML each time and changing the innerHTML of the table element.
- * Also handles filtering functionality.
- */
-function displaySalesRecords() {
-	
-	var table = document.getElementById("table");
+function getJSONObject(){
 	
 	//Get the filter elements 
 	var idFil = document.getElementById("filtersaleid");
 	var prodFil = document.getElementById("filterproduct");
 	var quantityFil = document.getElementById("filterquantity");
-	var datetimeFil = document.getElementById("filterdatetime");
+	var dateFromFil = document.getElementById("filterdatefrom");
+	var dateToFil = document.getElementById("filterdateto");
 	
 	var json = {
 			"authent": {
@@ -265,18 +253,221 @@ function displaySalesRecords() {
 		};
 	
 	/*
-	 * The next section handles the filtering. Currently if an ID filter value
-	 * exists then it will take precendence as only one sale ID can exist.
-	 * It then checks differing combinations of Product and Quantity. 
-	 * DateTime ranges are not implemented yet.
+	 * The next section handles constructing the JSON object with filtering. 
+	 * Currently if an ID filter value exists then it will take precendence 
+	 * as only one sale ID can exist.
 	 */
 	 
+	//Uncomment to log the transformed dates
+	//console.log("Date From: " + transformDateAndTime(dateFromFil.value));
+	//console.log("Date To: " + transformDateAndTime(dateToFil.value));
+	
 	//ID
 	if (idFil.value !== ""){
-		
 		json.requests[0].filter.type = "column";
 		json.requests[0].filter.name = "id";
 		json.requests[0].filter.value = idFil.value;
+		
+	//Product && Quantity && DateFrom && DateTo
+	} else if ((prodFil.value !== "") && (quantityFil.value !== "") && (dateFromFil.value !== "") && (dateToFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
+																								"lowInclusive": true,
+																								"high": transformDateAndTime(dateToFil.value),
+																								"highInclusive": true
+																							}});
+	//Product && DateFrom && DateTo
+	} else if ((prodFil.value !== "") && (dateFromFil.value !== "") && (dateToFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
+																								"lowInclusive": true,
+																								"high": transformDateAndTime(dateToFil.value),
+																								"highInclusive": true
+																							}});
+	//Quantity && DateFrom && DateTo
+	} else if ((quantityFil.value !== "") && (dateFromFil.value !== "") && (dateToFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
+																								"lowInclusive": true,
+																								"high": transformDateAndTime(dateToFil.value),
+																								"highInclusive": false
+																							}});
+	//DateFrom && DateTo
+	} else if ((dateFromFil.value !== "") && (dateToFil.value !== "")){
+		json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve",
+					"filter": {
+						"type": "column",
+						"name": "dateTime",
+						"inRange": {
+							"low": transformDateAndTime(dateFromFil.value),
+							"lowInclusive": true,
+							"high": transformDateAndTime(dateToFil.value),
+							"highInclusive": true
+						}
+					}
+				}
+			]
+		};
+		
+	/*
+		json.requests[0].filter.type = "column";
+		json.requests[0].filter.name = "dateTime";
+		json.requests[0].filter.inRange.low = transformDateAndTime(dateFromFil.value);
+		json.requests[0].filter.inRange.lowInclusive = true;
+		json.requests[0].filter.inRange.high = transformDateAndTime(dateToFil.value);
+		json.requests[0].filter.inRange.highInclusive = true;
+	*/
+	
+	//Product && Quantity && DateFrom
+	//uses the current date and time as the high boundary
+	} else if ((prodFil.value !== "") && (quantityFil.value !== "") && (dateFromFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
+																								"lowInclusive": true,
+																								"high": getCurrentDateAndTime(),
+																								"highInclusive": true
+																							}});
+	//Product && DateFrom
+	//uses the current date and time as the high boundary
+	} else if ((prodFil.value !== "") && (dateFromFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
+																								"lowInclusive": true,
+																								"high": getCurrentDateAndTime(),
+																								"highInclusive": true
+																							}});
+	//Quantity && DateFrom
+	//uses the current date and time as the high boundary
+	} else if ((quantityFil.value !== "") && (dateFromFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
+																								"lowInclusive": true,
+																								"high": getCurrentDateAndTime(),
+																								"highInclusive": true
+																							}});
+	//DateFrom
+	} else if ((dateFromFil.value !== "")){
+		json = {
+			"authent": {
+				"username": "feferi",
+				"password": "0413"
+			},
+			
+			"requests": [
+				{
+					"type": "retrieve",
+					"filter": {
+						"type": "column",
+						"name": "dateTime",
+						"inRange": {
+							"low": transformDateAndTime(dateFromFil.value),
+							"lowInclusive": true,
+							"high": getCurrentDateAndTime(),
+							"highInclusive": true
+						}
+					}
+				}
+			]
+		};
+	/*
+		json.requests[0].filter.type = "column";
+		json.requests[0].filter.name = "dateTime";
+		json.requests[0].filter.inRange.low = transformDateAndTime(dateFromFil.value);
+		json.requests[0].filter.inRange.lowInclusive = true;
+		json.requests[0].filter.inRange.high = getCurrentDateAndTime();
+		json.requests[0].filter.inRange.highInclusive = true;
+	*/
+	
+	//Product && Quantity && DateTo
+	//uses 01/01/1900 as begin boundary
+	} else if ((prodFil.value !== "") && (quantityFil.value !== "") && (dateToFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": "19900101T000000Z",
+																								"lowInclusive": true,
+																								"high": transformDateAndTime(dateToFil.value),
+																								"highInclusive": true
+																						}});
+	//Product && DateTo
+	//uses 01/01/1900 as begin boundary
+	} else if ((prodFil.value !== "") && (dateToFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": "19900101T000000Z",
+																								"lowInclusive": true,
+																								"high": transformDateAndTime(dateToFil.value),
+																								"highInclusive": true
+																						}});
+	//Quantity && DateTo
+	//uses 01/01/1900 as begin boundary
+	} else if ((quantityFil.value !== "") && (dateToFil.value !== "")){
+		json.requests[0].filter.type = "logicAnd";
+		json.requests[0].filter.children=[]
+		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
+		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": "19900101T000000Z",
+																								"lowInclusive": true,
+																								"high": transformDateAndTime(dateToFil.value),
+																								"highInclusive": true
+																						}});
+	//DateTo
+	} else if ((dateToFil.value !== "")){
+		json = {
+				"authent": {
+					"username": "feferi",
+					"password": "0413"
+				},
+				
+				"requests": [
+					{
+						"type": "retrieve",
+						"filter": {
+							"type": "column",
+							"name": "dateTime",
+							"inRange": {
+								"low": "19900101T000000Z",
+								"lowInclusive": true,
+								"high": transformDateAndTime(dateToFil.value),
+								"highInclusive": true
+							}
+						}
+					}
+				]
+		};
+	
+	/*
+		json.requests[0].filter.type = "column";
+		json.requests[0].filter.name = "dateTime";
+		json.requests[0].filter.inRange.low = "19900101T000000Z";
+		json.requests[0].filter.inRange.lowInclusive = true;
+		json.requests[0].filter.inRange.high = transformDateAndTime(dateToFil.value);
+		json.requests[0].filter.inRange.highInclusive = true;
+	*/
+	
 	//Product && Quantity
 	} else if ((prodFil.value !== "") && (quantityFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
@@ -310,6 +501,20 @@ function displaySalesRecords() {
 			]
 		};
 	}
+	
+	return json;
+}
+
+/*
+ * Displays the sales records in a predefined html table by writing
+ * new HTML each time and changing the innerHTML of the table element.
+ * Also handles filtering functionality.
+ */
+function displaySalesRecords() {
+	
+	var table = document.getElementById("table");
+	
+	var json = getJSONObject();
 	
 	//Uncomment to debug json variable
 	//console.log(json);

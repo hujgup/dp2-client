@@ -38,8 +38,11 @@
 	<label for="filterquantity">Quantity: </label>
 		<input type="text" name="filterquantity" id="filterquantity" placeholder="Enter quantity sold"/>
 		
-	<label for="filterdatetime">Date & Time:</label>
-		<input type="text" name="filterdatetime" id="filterdatetime" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/>
+	<label for="filterdatefrom">Date From:</label>
+		<input type="text" name="filterdatefrom" id="filterdatefrom" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/>
+		
+	<label for="filterdateto">Date To:</label>
+		<input type="text" name="filterdateto" id="filterdateto" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/>
 		
 	<input type="submit" value="Filter Records" id="filtersubmit"/>
 </form>
@@ -65,7 +68,7 @@ $("#export").click(function(){
 		<input type="text" name="quantity" id="quantity" placeholder="Enter quantity sold" required/></p>
 		
 	<p class="row"> <label for="datetime">Date & Time:</label>
-		<input type="text" name="datetime" id="datetime" data-field="datetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
+		<input type="text" name="datetime" id="datetime" data-field="datetime" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/></p>
 	<!--<div id="dtBox"></div>
 	<script>
 	  $( function() {
@@ -96,7 +99,7 @@ $("#export").click(function(){
 		<input type="text" name="editquantity" id="editquantity" placeholder="Enter quantity sold"/></p>
 		
 	<p class="row"> <label for="editdatetime">Date & Time:</label>
-		<input type="text" name="editdatetime" id="editdatetime" placeholder="DD-MM-YYYY HH:MM:SS"/></p>
+		<input type="text" name="editdatetime" id="editdatetime" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/></p>
 	
 	<!--<script>
 	  $( function() {
