@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Index page">
-<meta name="author" content="Jason Stanton">
+<meta charset="UTF-8"/>
+<meta name="description" content="Index page"/>
+<meta name="author" content="Jason Stanton"/>
 <script src="scripts/sales.js"></script>
-<link rel="stylesheet" type="text/css" href="styles/sales.css">
+<link rel="stylesheet" type="text/css" href="styles/sales.css"/>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script> <!--Needed for all jquery-->
-
-<!--Calendar Scripts/Styles
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>-->
 
 <!--Convert HTML Table to CSV-->
 <script src="scripts/jquery.tabletoCSV.js"></script>
 
-<!--DateTimePicker
- <link rel="stylesheet" type="text/css" href="styles/DateTimePicker.css" />
- <script type="text/javascript" src="scripts/DateTimePicker.js"></script>-->
-
-<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"/>
  
+<title>PHP Sales Reporting</title>
 </head>
 
 <body>
@@ -54,9 +47,8 @@
 		
 	<input type="submit" value="Filter Records" id="filtersubmit"/>
 </form>
-</br>
 </div>
-<table class="fixed_headers" id="table" cellpadding="5" cellspacing="5"></table>
+<table class="fixed_headers" id="table"></table>
 </div>
 
 <div id="import">
@@ -73,26 +65,14 @@ $("#export").click(function(){
 <form id="addsalesform">
 <fieldset><legend>Item Details</legend>
 	<p class="row">	<label for="product">Product: </label>
-		<input type="text" name="product" id="product" placeholder="Enter product id" required/></p>
+		<input type="text" name="product" id="product" placeholder="Enter product id" required="true"/></p>
 			
 	<p class="row">	<label for="quantity">Quantity: </label>
-		<input type="text" name="quantity" id="quantity" placeholder="Enter quantity sold" required/></p>
+		<input type="text" name="quantity" id="quantity" placeholder="Enter quantity sold" required="true"/></p>
 		
-	<p class="row"> <label for="datetime">Date & Time:</label>
+	<p class="row"> <label for="datetime">Date &amp; Time:</label>
 		<input type="text" name="datetime" id="datetime" data-field="datetime" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/></p>
-	<!--<div id="dtBox"></div>
-	<script>
-	  $( function() {
-		$( "#datetime" ).datepicker();
-	  } );
-	</script>
-	<script>
-		 $(document).ready(function()
-		 {
-			 $("#dtBox").DateTimePicker();
-		 });
-	</script>-->
-	
+
 	<p>	<input type="submit" value="Add Item" id="submit"/></p>
 </fieldset>
 </form>
@@ -103,7 +83,7 @@ $("#export").click(function(){
 <form id="editsalesform">
 <fieldset><legend>Item Details</legend>
 	<p class="row"> <label for="saleid">Sale ID: </label>
-		<input type="text" name="saleid" id="saleid" placeholder="ID Of Sale" required/></p>
+		<input type="text" name="saleid" id="saleid" placeholder="ID Of Sale" required="true"/></p>
 		
 	<p class="row">	<label for="editproduct">Product: </label>
 		<input type="text" name="editproduct" id="editproduct" placeholder="Enter product id"/></p>
@@ -111,15 +91,9 @@ $("#export").click(function(){
 	<p class="row">	<label for="editquantity">Quantity: </label>
 		<input type="text" name="editquantity" id="editquantity" placeholder="Enter quantity sold"/></p>
 		
-	<p class="row"> <label for="editdatetime">Date & Time:</label>
+	<p class="row"> <label for="editdatetime">Date &amp; Time:</label>
 		<input type="text" name="editdatetime" id="editdatetime" placeholder="DD-MM-YYYY HH:MM:SS" size="22"/></p>
-	
-	<!--<script>
-	  $( function() {
-		$( "#editdatetime" ).datepicker();
-	  } );
-	</script>-->
-	
+		
 	<p>	<input type="submit" value="Edit Item" id="editsubmit"/></p>
 </fieldset>
 </form>

@@ -271,7 +271,7 @@ function getJSONObject(){
 	//Product && Quantity && DateFrom && DateTo
 	} else if ((prodFil.value !== "") && (quantityFil.value !== "") && (dateFromFil.value !== "") && (dateToFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
@@ -282,7 +282,7 @@ function getJSONObject(){
 	//Product && DateFrom && DateTo
 	} else if ((prodFil.value !== "") && (dateFromFil.value !== "") && (dateToFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
 																								"lowInclusive": true,
@@ -292,7 +292,7 @@ function getJSONObject(){
 	//Quantity && DateFrom && DateTo
 	} else if ((quantityFil.value !== "") && (dateFromFil.value !== "") && (dateToFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
 																								"lowInclusive": true,
@@ -337,7 +337,7 @@ function getJSONObject(){
 	//uses the current date and time as the high boundary
 	} else if ((prodFil.value !== "") && (quantityFil.value !== "") && (dateFromFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
@@ -349,7 +349,7 @@ function getJSONObject(){
 	//uses the current date and time as the high boundary
 	} else if ((prodFil.value !== "") && (dateFromFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
 																								"lowInclusive": true,
@@ -360,7 +360,7 @@ function getJSONObject(){
 	//uses the current date and time as the high boundary
 	} else if ((quantityFil.value !== "") && (dateFromFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": transformDateAndTime(dateFromFil.value),
 																								"lowInclusive": true,
@@ -404,7 +404,7 @@ function getJSONObject(){
 	//uses 01/01/1900 as begin boundary
 	} else if ((prodFil.value !== "") && (quantityFil.value !== "") && (dateToFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": "19900101T000000Z",
@@ -416,7 +416,7 @@ function getJSONObject(){
 	//uses 01/01/1900 as begin boundary
 	} else if ((prodFil.value !== "") && (dateToFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": "19900101T000000Z",
 																								"lowInclusive": true,
@@ -427,7 +427,7 @@ function getJSONObject(){
 	//uses 01/01/1900 as begin boundary
 	} else if ((quantityFil.value !== "") && (dateToFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"dateTime","inRange": {	"low": "19900101T000000Z",
 																								"lowInclusive": true,
@@ -471,7 +471,7 @@ function getJSONObject(){
 	//Product && Quantity
 	} else if ((prodFil.value !== "") && (quantityFil.value !== "")){
 		json.requests[0].filter.type = "logicAnd";
-		json.requests[0].filter.children=[]
+		json.requests[0].filter.children=[];
 		json.requests[0].filter.children.push({"type":"column","name":"product","value":prodFil.value});
 		json.requests[0].filter.children.push({"type":"column","name":"quantity","value":quantityFil.value});
 		
@@ -488,7 +488,7 @@ function getJSONObject(){
 		json.requests[0].filter.value = quantityFil.value;
 	//Empty
 	} else {
-		var json = {
+		json = {
 			"authent": {
 				"username": "feferi",
 				"password": "0413"
@@ -553,6 +553,14 @@ function displaySalesRecords() {
 	};
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.send("request=" + encodeURIComponent(JSON.stringify(json)));
+	
+	
+	var tableHeaders = document.getElementsByTagName("th");
+	for(var i = 0; i < tableHeaders.length; i++)
+	{
+		tableHeaders[i].onclick = function() { sortTable(i) };
+
+	}
 }
 
 /*
@@ -565,6 +573,12 @@ function init()
 		document.getElementById("addsalesform").onsubmit = insertData;
 		document.getElementById("editsalesform").onsubmit = editData;
 		document.getElementById("salesfiltersform").onsubmit = filterSalesRecords;
+		var tableHeaders = document.getElementsByTagName("th");
+		for(var i = 0; i < tableHeaders.length; i++)
+		{
+			tableHeaders[i].onclick = function() { alert("hello"); };
+
+		}
 		displaySalesRecords();
 }
 
