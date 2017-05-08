@@ -553,14 +553,6 @@ function displaySalesRecords() {
 	};
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.send("request=" + encodeURIComponent(JSON.stringify(json)));
-	
-	
-	var tableHeaders = document.getElementsByTagName("th");
-	for(var i = 0; i < tableHeaders.length; i++)
-	{
-		tableHeaders[i].onclick = function() { sortTable(i) };
-
-	}
 }
 
 /*
@@ -573,12 +565,6 @@ function init()
 		document.getElementById("addsalesform").onsubmit = insertData;
 		document.getElementById("editsalesform").onsubmit = editData;
 		document.getElementById("salesfiltersform").onsubmit = filterSalesRecords;
-		var tableHeaders = document.getElementsByTagName("th");
-		for(var i = 0; i < tableHeaders.length; i++)
-		{
-			tableHeaders[i].onclick = function() { alert("hello"); };
-
-		}
 		displaySalesRecords();
 }
 
