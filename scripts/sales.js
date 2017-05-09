@@ -8,8 +8,8 @@ function transformDateAndTime(datetime) {
 	//console.log("Date Initial: " + datetime);
 	datetime = datetime.replace(/[^0-9]/g, '');
 	//console.log("Date First: " + datetime);
-	datetime = datetime.substring(10,14) + datetime.substring(8, 10) + datetime.substring(6, 8) + "T" 
-				+ datetime.substring(0,6) + "Z";
+	datetime = datetime.substring(4,8) + datetime.substring(2, 4) + datetime.substring(0, 2) + "T" 
+				+ datetime.substring(8,14) + "Z";
 	return datetime;
 }
 
@@ -531,7 +531,7 @@ function displaySalesRecords() {
 				
 				//Construct HTML table header row
 				//This needs to be exist singularly every time a new table is generated
-				var html = "<caption>Sales Records</caption><thead><tr><th>ID</th><th>Product</th><th>Name</th><th>Quantity</th><th>Amount</th><th>DateTime</th></tr></thead><tbody>";
+				var html = "<caption>Sales Records</caption><thead><tr><th>ID</th><th>Product ID</th><th>Name</th><th>Quantity</th><th>Amount</th><th>DateTime</th></tr></thead><tbody>";
 				
 				for(i=0; i < data[0].length; i++)
 				{
@@ -555,6 +555,69 @@ function displaySalesRecords() {
 	xhr.send("request=" + encodeURIComponent(JSON.stringify(json)));
 }
 
+function drawAxes(width, height, ctx){
+	var padding = 10;
+	var arLength = 5;
+	var yLength = height - (2*padding);
+	var xLength = width - (2*padding);
+	
+	var noMarkers = 50;
+	var resolution = yLength / noMarkers;
+	
+	//draw arrow on top of vertical line
+	ctx.moveTo((arLength + arLength/2), padding + arLength);
+	ctx.lineTo(padding, padding);
+	ctx.lineTo((padding + arLength/2), padding + arLength);
+	
+	//draw vertical line
+	ctx.moveTo(padding, padding);
+	ctx.lineTo(padding, height - padding);
+	
+	//drawhorizontal axes
+	ctx.lineTo(width - padding, height - padding);
+	
+	//draw arrow on end of horizontal line
+	ctx.lineTo(width - (padding + arLength), height - (padding + arLength/2));
+	ctx.moveTo(width - padding, height - padding);
+	ctx.lineTo(width - (padding + arLength), height - (arLength + arLength/2));
+	
+	var i;
+	
+	//draw y axis markers
+	//change noMarkers variable to change amount of markers shown
+	for (i=height - (2*padding); i>=padding; i-=resolution){
+		ctx.moveTo(arLength, i);
+		ctx.lineTo((padding + arLength), i);
+	}
+	
+	//draw x axis markers
+	//change noMarkers variable to change amount of markers shown
+	for (i=0+(2*padding); i<=xLength + padding; i+=resolution){
+		ctx.moveTo(i, height - arLength);
+		ctx.lineTo(i, height - (padding + arLength));
+	}
+	
+	//display the created paths to the screen
+	ctx.stroke();
+}
+
+/*
+ * Called when page loaded.
+ * Displays graph.
+ *
+ */
+function displayGraph(){
+	var width = 800;
+	var height = 800;
+	
+	var c = document.getElementById("canvas");
+	var ctx = c.getContext("2d");
+	
+	drawAxes(width, height, ctx);
+}
+
+
+
 /*
  * Called when the page/window is loaded.
  * Responsible for handling form submit functions and initial display of sales tables.
@@ -565,6 +628,7 @@ function init()
 		document.getElementById("addsalesform").onsubmit = insertData;
 		document.getElementById("editsalesform").onsubmit = editData;
 		document.getElementById("salesfiltersform").onsubmit = filterSalesRecords;
+		displayGraph();
 		displaySalesRecords();
 }
 

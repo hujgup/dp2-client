@@ -17,16 +17,9 @@
 </head>
 
 <body>
-<!--
-<div class="topnav" id="topnav">
-	<a href="index.html">Home</a>
-</div>
--->
-
 <div id="heading">
 <h1>PHP Sales Reporting and Prediction System</h1>
 </div>
-
 <div>
 <div id="filters">
 <form id="salesfiltersform">
@@ -48,6 +41,7 @@
 	<input type="submit" value="Filter Records" id="filtersubmit"/>
 </form>
 </div>
+</br>
 <table class="fixed_headers" id="table"></table>
 </div>
 
@@ -58,6 +52,11 @@ $("#export").click(function(){
   $("table").tableToCSV();
 });
 </script>
+</div>
+
+<div id="graph">
+<h1>Sales Prediction</h1>
+<canvas id="canvas" width="800" height="800"></canvas>
 </div>
 
 <div id="addsale">

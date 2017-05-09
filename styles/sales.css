@@ -2,16 +2,16 @@ body {
 	font-family: 'Open Sans', sans-serif;
 }
 
-#heading, #filters {
+/*#canvas {
+	border: 1px solid black;
+}*/
+
+#heading, #filters, #addsale, #editsale, #graph {
 	text-align: center;
 }
 
 #import {
 	text-align: right;
-}
-
-#addsale, #editsale {
-	text-align: center;
 }
 
 table {
